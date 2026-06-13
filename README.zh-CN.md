@@ -1,25 +1,33 @@
-# Android 开发文档 Skills
+# 开发文档 Skills
 
 [English](README.md) | 中文
 
-这是一个面向编码 Agent 的 Android 开发文档技能集合，用来把常见的 Android 研发文档编写流程沉淀成可复用的 agent workflow。当前仓库聚焦三类高频文档：
+这是一个面向编码 Agent 的软件工程文档技能集合，用来把常见研发文档编写流程沉淀成可复用的 agent workflow。当前仓库按文档类型提供三类 skill：
 
 - 概要设计文档（HLD）
 - 单 Feature 技术方案文档
 - 需求矩阵与开发排期文档
 
-每个 skill 都包含一个 `SKILL.md` 指令文件；需要固定模板的 skill 会在 `references/` 目录下提供可复用的 Markdown 模板。
+每个 skill 先按文档类型触发。触发后，再根据项目类型选择对应模板：
+
+- `references/android-template.md`：Android 项目模板
+- `references/common-template.md`：非 Android 软件工程通用模板
+
+这样不需要在外层安装 Android 和通用两套同类 skill，也方便后续继续增加更多项目类别模板。
 
 ## 项目定位
 
-Android 新功能开发通常不只需要写代码，还需要输出可评审、可排期、可验证的工程文档。比如需求范围、模块边界、接口设计、异常场景、非功能要求、风险措施、开发工作量和多人排期等，都需要被清晰记录。
+新功能开发通常不只需要写代码，还需要输出可评审、可排期、可验证的工程文档。比如需求范围、模块边界、接口设计、异常场景、非功能要求、风险措施、开发工作量和多人排期等，都需要被清晰记录。
 
-这个仓库的目标就是把这些重复性的文档工作标准化，让编码 Agent 在生成文档时能够：
+这个仓库的目标是把这些重复性的文档工作标准化，让编码 Agent 在生成文档时能够：
 
+- 先根据用户目标选择文档类型 skill；
+- 再根据项目类型选择 Android 或通用模板；
 - 先阅读需求资料、技术资料或工程上下文；
 - 按固定模板保留必填章节；
-- 用 Android 工程视角补全模块、接口、生命周期、权限、兼容性和测试验证内容；
 - 对缺失信息明确标注“待确认”，而不是编造细节。
+
+适用场景包括 Android App/系统模块、后端服务、Web 前端、iOS、桌面端、云平台、数据平台、AI/ML 服务、基础设施、SDK/库、CLI 工具和企业内部系统等。
 
 ## 目录结构
 
@@ -28,15 +36,18 @@ Android 新功能开发通常不只需要写代码，还需要输出可评审、
 ├── hld-generator/
 │   ├── SKILL.md
 │   └── references/
-│       └── template.md
+│       ├── android-template.md
+│       └── common-template.md
 ├── technical-design-generator/
 │   ├── SKILL.md
 │   └── references/
-│       └── template.md
+│       ├── android-template.md
+│       └── common-template.md
 ├── requirements-matrix-generator/
 │   ├── SKILL.md
 │   └── references/
-│       └── template.md
+│       ├── android-template.md
+│       └── common-template.md
 ├── LICENSE
 ├── README.md
 └── README.zh-CN.md
@@ -46,27 +57,22 @@ Android 新功能开发通常不只需要写代码，还需要输出可评审、
 
 ### `hld-generator`
 
-用于生成 Android 概要设计文档，也就是 HLD（High-Level Design）。输入可以是 PRD、ERGO、GD、Jira、Confluence、截图、已有技术方案、接口说明，或者 Android 工程代码上下文。
+用于生成概要设计文档，也就是 HLD（High-Level Design）。输入可以是 PRD、Jira、Confluence、截图、已有技术方案、接口说明、架构说明，或者工程代码上下文。
 
-该 skill 会严格保留概要设计模板中的章节结构，包括：
+当目标是正式的概要设计、HLD、高层设计、公司/团队概要设计模板，或者带概要设计评审 checklist 的文档时，适合使用这个 skill。
 
-- 文档历史发放及记录
-- 引言与参考资料
-- 需求分析
-- 总体架构设计
-- 二层模块设计
-- 接口设计
-- 非功能设计
-- 并发处理、数据结构、物理数据结构、系统出错处理
-- 完整的 20 项概要设计评审 checklist
+触发后，该 skill 会根据项目类型选择：
 
-当目标是正式的概要设计评审文档时，适合使用这个 skill。
+- Android 模板：适用于 Android App、系统应用、AOSP、APK/AAR、Android SDK/Framework、Android Gradle Library、Kotlin/Java Android 模块。
+- 通用模板：适用于后端、Web、iOS、桌面端、云平台、数据平台、AI/ML、基础设施、非 Android SDK/库、CLI、企业内部系统。
 
 ### `technical-design-generator`
 
-用于生成单个 Android 新 Feature 或版本需求的技术方案文档。
+用于生成单个 Feature 或版本需求的技术方案文档。
 
-该 skill 更适合轻量但完整的技术评审场景，覆盖内容包括：
+当目标是技术方案、技术设计、实现方案、Feature 级方案评审材料时，适合使用这个 skill。
+
+该 skill 覆盖内容包括：
 
 - 背景
 - 需求描述
@@ -78,22 +84,39 @@ Android 新功能开发通常不只需要写代码，还需要输出可评审、
 - 异常和边界场景
 - 方案劣势、风险和解决措施
 
-当目标是为某一个 Android Feature 输出技术设计或方案评审材料时，适合使用这个 skill。
-
 ### `requirements-matrix-generator`
 
-用于生成 Android 新 Feature 的需求矩阵、开发任务拆解、工作量估算和多人排期文档。
+用于生成需求矩阵、开发任务拆解、工作量估算和多人排期文档。
 
-该 skill 会从需求资料和技术方案中拆解 Android 开发任务，并关注：
+当目标是拆任务、估人天、工作量评估、开发排期、需求矩阵或甘特图时，适合使用这个 skill。
+
+该 skill 会从需求资料和技术方案中拆解开发任务，并关注：
 
 - 先阅读原始需求资料和技术方案；
 - 将任务拆到不超过 3 人天的粒度；
 - 保留需求矩阵必填列和新功能必写行；
-- 处理前置依赖、风险、负责人、适用设备和任务状态；
-- 在多人开发时输出 Mermaid 甘特图；
-- 对多语言、大字体、EAA、暗黑模式、埋点等质量项做显式评估。
+- 处理前置依赖、风险、负责人、适用端/平台或设备和任务状态；
+- 在多人开发时输出 Mermaid 甘特图。
 
-当目标是做开发排期、工作量评估或需求矩阵时，适合使用这个 skill。
+## 项目类型选择规则
+
+这些 skill 不再通过外层目录区分 Android 和非 Android。每个 skill 触发后，会先判断或询问项目类型，再选择模板。
+
+当上下文明确包含以下 Android 信号时，使用 Android 模板：
+
+- Android App、AOSP、系统应用、APK、AAR
+- Gradle Android Library、AndroidManifest、minSdk、targetSdk
+- Android SDK、Android Framework、AIDL、Intent、Broadcast、ContentProvider
+- Kotlin/Java Android、Activity、Fragment、ViewModel、Service、Receiver、Provider、Worker、Compose/XML
+
+当上下文明确属于以下非 Android 软件工程时，使用通用模板：
+
+- 后端服务、Web 前端、iOS、桌面端、云平台
+- 数据平台、AI/ML 服务、基础设施、中台系统
+- 非 Android SDK/库、CLI、企业内部系统
+- API 网关、数据库、缓存、消息队列、对象存储、CI/CD、部署、可观测性
+
+如果用户只说“App”“客户端”“移动端”“SDK”“Framework”“设计文档”“按模板”，但没有足够上下文判断项目类型，skill 应先追问项目类型，再选择模板。
 
 ## 使用方式
 
@@ -110,15 +133,15 @@ cp -R requirements-matrix-generator /path/to/your-agent/skills/
 安装后，可以这样使用：
 
 ```text
-使用 HLD generator，根据这份 PRD 和现有模块设计生成 Android 概要设计文档。
+使用 HLD generator，根据这份 PRD 和现有模块设计生成概要设计文档。
 ```
 
 ```text
-根据这段需求说明和代码路径，生成 Android Feature 技术方案。
+根据这段需求说明和代码路径，生成 Feature 技术方案。
 ```
 
 ```text
-基于这份 PRD 和技术方案生成需求矩阵，开始时间是 2026-07-01，共 3 名 Android 开发参与。
+基于这份 PRD 和技术方案生成需求矩阵，开始时间是 2026-07-01，共 3 名开发参与。
 ```
 
 ## 输入建议
@@ -127,19 +150,20 @@ cp -R requirements-matrix-generator /path/to/your-agent/skills/
 
 - PRD、ERGO、GD、Jira、Confluence 或其它需求内容；
 - 已有技术方案、概要设计、架构说明；
-- Android 工程路径、模块名、包名、类名、接口名或调用链；
-- 接口定义、协议字段、截图、交互流程、异常流程；
+- 工程路径、模块名、包名/命名空间、类名、接口名、服务名或调用链；
+- 接口定义、协议字段、截图、交互流程、异常流程、部署说明或日志；
 - 需求矩阵所需的开始时间、结束时间、开发人数和负责人信息。
 
 如果关键资料缺失，这些 skills 会尽量保留模板结构，并在相关章节标注“待确认”或“待补充”。
 
 ## 设计原则
 
+- 先按文档类型触发 skill，再按项目类型选择模板。
+- 项目类型不明确时先追问，不盲目选择模板。
 - 先理解资料，再生成文档。
 - 不删除模板要求的必填章节、表格和 checklist。
-- 优先输出 Android 工程可落地的信息，而不是泛泛而谈。
+- 选择模板后，补充对应领域的工程化信息。
 - 对不确定内容明确标注，不伪造接口、指标、验证结论或风险闭环。
-- 覆盖生命周期、权限、前后台、并发、兼容性、稳定性、安全、测试、回滚等 Android 常见设计维度。
 - 输出可继续评审、修改和落地的 Markdown 文档。
 
 ## License
